@@ -1,0 +1,41 @@
+module decl() {
+    global
+    &OUTFILE:  integer,
+    &INFILE:   integer,
+    &FINISHED: logical;
+
+    type WRAPITUP = element();
+    type COMPLETE = element();
+
+    type X    = element();
+    type Y    = element();
+    type Z    = element();
+
+    type A    = element();
+    type B    = element();
+    type C    = element();
+
+    type P1   = element(val:integer);
+    type P2   = element(val:integer);
+    type P3   = element(val:integer);
+    type P4   = element(val:integer);
+    type P5   = element(val:integer);
+    type P6   = element(val:integer);
+    type P7   = element(val:integer);
+    type P8   = element(val:integer);
+    type P9   = element(val:integer);
+    type P10  = element(val:integer);
+
+    type eP1  = element(val:integer);
+    type eP2  = element(val:integer);
+    type eP3  = element(val:integer);
+    type eP4  = element(val:integer);
+    type eP5  = element(val:integer);
+    type eP6  = element(val:integer);
+    type eP7  = element(val:integer);
+    type eP8  = element(val:integer);
+    type eP9  = element(val:integer);
+    type eP10 = element(val:integer);
+
+    type CLOCK = element();
+}

@@ -1,0 +1,251 @@
+module rules() {
+    use decl;
+
+    rule rClock
+    {
+        &C (CLOCK); &1 (eP1); &2 (eP2); &3 (eP3); &4 (eP4); &5 (eP5); &6 (eP6); &7 (eP7); &8 (eP8); &9 (eP9); &10 (eP10); ~(COMPLETE)
+        -->
+        remove &C;
+        make (P1  val=&1.val);
+        make (P2  val=&2.val);
+        make (P3  val=&3.val);
+        make (P4  val=&4.val);
+        make (P5  val=&5.val);
+        make (P6  val=&6.val);
+        make (P7  val=&7.val);
+        make (P8  val=&8.val);
+        make (P9  val=&9.val);
+        make (P10 val=&10.val);
+
+        remove &1;
+        remove &2;
+        remove &3;
+        remove &4;
+        remove &5;
+        remove &6;
+        remove &7;
+        remove &8;
+        remove &9;
+        remove &10;
+
+        write(&OUTFILE) &1.val, ',', &2.val, ',', &3.val, ',', &4.val, ',', &5.val, ',', &6.val, ',', &7.val, ',', &8.val, ',', &9.val, ',', &10.val, '\n';
+    };
+
+    rule rP1
+    {
+        &1 (P1); &2 (A); &3 (B); &4 (X); ~(CLOCK)
+        -->
+        make (eP1 val=&1.val + 1);
+        remove &1;
+        remove &2;
+        remove &3;
+        remove &4;
+    };
+
+    rule rP5
+    {
+        &1 (P5); &2 (B); &3 (C); &4 (Y); ~(CLOCK)
+        -->
+        make (eP5 val=&1.val + 1);
+        remove &1;
+        remove &2;
+        remove &3;
+        remove &4;
+    };
+
+    rule rP8
+    {
+        &1 (P8); &2 (C); &3 (Z); ~(CLOCK)
+        -->
+        make (eP8 val=&1.val + 1);
+        remove &1;
+        remove &2;
+        remove &3;
+    };
+
+    rule rP2
+    {
+        &1 (P2); &2 (P1 val>0); ~(CLOCK)
+        -->
+        make (eP2 val=&1.val + 1);
+        make (P1 val=&2.val - 1);
+        remove &1;
+        remove &2;
+    };
+
+    rule rP3
+    {
+        &1 (P3); &2 (P2 val>0); ~(CLOCK)
+        -->
+        make (eP3 val=&1.val + 1);
+        make (P2 val=&2.val - 1);
+        remove &1;
+        remove &2;
+    };
+
+    rule rP6
+    {
+        &1 (P6); &2 (P5 val>0); ~(CLOCK)
+        -->
+        make (eP6 val=&1.val + 1);
+        make (P5 val=&2.val - 1);
+        remove &1;
+        remove &2;
+    };
+
+    rule rP9
+    {
+        &1 (P9); &2 (P8 val>0); ~(CLOCK)
+        -->
+        make (eP9 val=&1.val + 1);
+        make (P8 val=&2.val - 1);
+        remove &1;
+        remove &2;
+    };
+
+    rule rP4
+    {
+        &1 (P4); &2 (P3 val>0); ~(CLOCK)
+        -->
+        make (eP4 val=&1.val + 1);
+        make (P3 val=&2.val - 1);
+        remove &1;
+        remove &2;
+        make (A);
+        make (B);
+    };
+
+    rule rP7
+    {
+        &1 (P7); &2 (P6 val>0); ~(CLOCK)
+        -->
+        make (eP7 val=&1.val + 1);
+        make (P6 val=&2.val - 1);
+        remove &1;
+        remove &2;
+        make (B);
+        make (C);
+    };
+
+    rule rP10
+    {
+        &1 (P10); &2 (P9 val>0); ~(CLOCK)
+        -->
+        make (eP10 val=&1.val + 1);
+        make (P9 val=&2.val - 1);
+        remove &1;
+        remove &2;
+        make (C);
+    };
+
+    rule reP1
+    {
+        &1 (P1); ~(eP1); (CLOCK)
+        -->
+        make (eP1 val=&1.val);
+        remove &1;
+    };
+
+    rule reP2
+    {
+        &1 (P2); ~(eP2); (CLOCK)
+        -->
+        make (eP2 val=&1.val);
+        remove &1;
+    };
+
+    rule reP3
+    {
+        &1 (P3); ~(eP3); (CLOCK)
+        -->
+        make (eP3 val=&1.val);
+        remove &1;
+    };
+
+    rule reP4
+    {
+        &1 (P4); ~(eP4); (CLOCK)
+        -->
+        make (eP4 val=&1.val);
+        remove &1;
+    };
+
+    rule reP5
+    {
+        &1 (P5); ~(eP5); (CLOCK)
+        -->
+        make (eP5 val=&1.val);
+        remove &1;
+    };
+
+    rule reP6
+    {
+        &1 (P6); ~(eP6); (CLOCK)
+        -->
+        make (eP6 val=&1.val);
+        remove &1;
+    };
+
+    rule reP7
+    {
+        &1 (P7); ~(eP7); (CLOCK)
+        -->
+        make (eP7 val=&1.val);
+        remove &1;
+    };
+
+    rule reP8
+    {
+        &1 (P8); ~(eP8); (CLOCK)
+        -->
+        make (eP8 val=&1.val);
+        remove &1;
+    };
+
+    rule reP9
+    {
+        &1 (P9); ~(eP9); (CLOCK)
+        -->
+        make (eP9 val=&1.val);
+        remove &1;
+    };
+
+    rule reP10
+    {
+        &1 (P10); ~(eP10); (CLOCK)
+        -->
+        make (eP10 val=&1.val);
+        remove &1;
+    };
+
+    rule endit
+    {
+        &1 (P1); &2 (P2); &3 (P3); &4 (P4); &5 (P5); &6 (P6); &7 (P7); &8 (P8); &9 (P9); &10 (P10);
+        &C (CLOCK); &W (WRAPITUP);
+        ~(eP1); ~(eP2); ~(eP3); ~(eP4); ~(eP5); ~(eP6); ~(eP7); ~(eP8); ~(eP9); ~(eP10)
+        -->
+        make (eP1  val=&1.val);
+        make (eP2  val=&2.val);
+        make (eP3  val=&3.val);
+        make (eP4  val=&4.val);
+        make (eP5  val=&5.val);
+        make (eP6  val=&6.val);
+        make (eP7  val=&7.val);
+        make (eP8  val=&8.val);
+        make (eP9  val=&9.val);
+        make (eP10 val=&10.val);
+        make (COMPLETE);
+
+        write(&OUTFILE) |endit\n|;
+        remove &W;
+    };
+
+    rule finish
+    {
+        &C (CLOCK); &1 (eP1); &2 (eP2); &3 (eP3); &4 (eP4); &5 (eP5); &6 (eP6); &7 (eP7); &8 (eP8); &9 (eP9); &10 (eP10); (COMPLETE)
+        -->
+        remove &C;
+
+        write(&OUTFILE) '\n', |Final values: |, &1.val, ',', &2.val, ',', &3.val, ',', &4.val, ',', &5.val, ',', &6.val, ',', &7.val, ',', &8.val, ',', &9.val, ',', &10.val, '\n';
+    };
+}

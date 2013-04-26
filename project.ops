@@ -1,0 +1,141 @@
+module project(start) {
+    use decl;
+    use rules;
+    use wrul;
+    use wmt;
+
+    procedure readInputLine() {
+        local
+        &X: integer, -- Request for product X
+        &Y: integer, -- Request for product Y
+        &Z: integer; -- Request for product Z
+
+        read(&INFILE) &X, &Y, &Z;
+
+        if (&X = -1 /\ &Y = -1 /\ &Z = -1) {
+            make (WRAPITUP);
+            &FINISHED = 1B;
+        } else {
+            if (&X = 1) {
+                make (X);
+            };
+            if (&Y = 1) {
+                make (Y);
+            };
+            if (&Z = 1) {
+                make (Z);
+            };
+        };
+    };
+
+    -- Will return the number of the dominant instantiation
+    -- Returns 0 if no instantiations should be fired
+    function selection():integer {
+        local
+        &S: integer,  -- the best instantiation so far
+        &SG: integer, -- the goal for &S
+        &SU: integer, -- the number of times &S has been fired so far
+        &SP: integer, -- the number of patterns on the left side of &S
+        &X: integer,  -- the next instantiation to try
+        &XG: integer, -- &X's goal
+        &XU: integer, -- &X's use count
+        &XP: integer, -- &X's pattern count
+        &DR: real,    -- dummy real variable
+        &DI: integer; -- dummy integer variable
+
+        -- Find an unexecuted instantiation
+        &S = 0;
+        &X = cssize();
+        while (&S = 0) {
+            if (instance(&X, &XG, &XU, &DR, &DI, &XP) = 0B) {
+                return (&S);
+            };
+            if (&XU = 0) {
+                &S  = &X;
+                &SG = &XG;
+                &SP = &XP;
+            };
+            &X = &X - 1;
+        };
+
+        -- Examine the rest of the instantiations looking for the dominant one
+        while (1B) {
+            if (instance(&X, &XG, &XU, &DR, &DI, &XP) = 0B) {
+                return (&S);
+            };
+            if ((&XU = 0) /\ ((&XG > &SG) \/ (&XG = &SG) /\ (&XP > &SP))) {
+                &S = &X;
+                &SG = &XG;
+                &SP = &XP;
+            };
+            &X = &X - 1;
+        };
+    };
+
+    function run(&CYCLES: integer): symbol {
+        local
+        &CNT:  integer, -- cycle count
+        &INST: integer; -- next instantiation to fire
+
+        for &CNT = (1 to &CYCLES) {
+            -- Conflict resolution
+            &INST = selection();
+            if (&INST = 0) return (|no satisfied rules|);
+            --act
+            fire &INST;
+        };
+        return (|cycle limit reached|);
+    };
+
+    procedure start() {
+        local
+        &I: integer,
+        &STOP: integer,
+        &K: integer, -- The instantiation number of the instance
+        &2: integer, -- The goal for the instance
+        &3: integer, -- The use count for the instance
+        &4: real,    -- Dummy real number... use?
+        &5: integer, -- Dummy integer... use?
+        &6: integer; -- Pattern count for the instance
+
+        make (P1  val=0);
+        make (P2  val=0);
+        make (P3  val=0);
+        make (P4  val=0);
+        make (P5  val=0);
+        make (P6  val=0);
+        make (P7  val=0);
+        make (P8  val=0);
+        make (P9  val=0);
+        make (P10 val=0);
+
+        make (A);
+        make (B);
+        make (B);
+        make (B);
+        make (C);
+        make (C);
+
+        &INFILE   = open(|input.txt|);
+        &OUTFILE  = create(|output.txt|);
+        &FINISHED = 0B;
+
+        call readInputLine();
+
+        while (cssize() > 0) {
+            &I = 50;
+            call run(&I);
+
+            make (CLOCK);
+            &I = cssize();
+            while (&I > 0) {
+                fire 1;
+                &I = &I - 1;
+            };
+
+            if (&FINISHED = 0B) {
+                call readInputLine();
+            };
+        };
+    };
+}
