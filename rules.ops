@@ -5,7 +5,6 @@ module rules() {
     {
         &C (CLOCK); &1 (eP1); &2 (eP2); &3 (eP3); &4 (eP4); &5 (eP5); &6 (eP6); &7 (eP7); &8 (eP8); &9 (eP9); &10 (eP10); ~(COMPLETE)
         -->
-        remove &C;
         make (P1  val=&1.val);
         make (P2  val=&2.val);
         make (P3  val=&3.val);
@@ -28,6 +27,8 @@ module rules() {
         remove &9;
         remove &10;
 
+        remove &C;
+
         write(&OUTFILE) &1.val, ',', &2.val, ',', &3.val, ',', &4.val, ',', &5.val, ',', &6.val, ',', &7.val, ',', &8.val, ',', &9.val, ',', &10.val, '\n';
     };
 
@@ -36,6 +37,7 @@ module rules() {
         &1 (P1); &2 (A); &3 (B); &4 (X); ~(CLOCK)
         -->
         make (eP1 val=&1.val + 1);
+        make (STATEMENT msg=|Requested X. Taking tokens from A, B, and X. Adding token to P1.|);
         remove &1;
         remove &2;
         remove &3;
@@ -47,6 +49,7 @@ module rules() {
         &1 (P5); &2 (B); &3 (C); &4 (Y); ~(CLOCK)
         -->
         make (eP5 val=&1.val + 1);
+        make (STATEMENT msg=|Requested Y. Taking tokens from B, C, and Y. Adding token to P5.|);
         remove &1;
         remove &2;
         remove &3;
@@ -58,6 +61,7 @@ module rules() {
         &1 (P8); &2 (C); &3 (Z); ~(CLOCK)
         -->
         make (eP8 val=&1.val + 1);
+        make (STATEMENT msg=|Requested Z. Taking tokens from C and Z. Adding token to P8.|);
         remove &1;
         remove &2;
         remove &3;
@@ -69,6 +73,7 @@ module rules() {
         -->
         make (eP2 val=&1.val + 1);
         make (P1 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P1. Adding token to P2.|);
         remove &1;
         remove &2;
     };
@@ -79,6 +84,7 @@ module rules() {
         -->
         make (eP3 val=&1.val + 1);
         make (P2 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P2. Adding token to P3.|);
         remove &1;
         remove &2;
     };
@@ -89,6 +95,7 @@ module rules() {
         -->
         make (eP6 val=&1.val + 1);
         make (P5 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P5. Adding token to P6.|);
         remove &1;
         remove &2;
     };
@@ -99,6 +106,7 @@ module rules() {
         -->
         make (eP9 val=&1.val + 1);
         make (P8 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P8. Adding token to P9.|);
         remove &1;
         remove &2;
     };
@@ -109,6 +117,7 @@ module rules() {
         -->
         make (eP4 val=&1.val + 1);
         make (P3 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P3. Adding token to P4 and replacing tokens in A and B.|);
         remove &1;
         remove &2;
         make (A);
@@ -121,6 +130,7 @@ module rules() {
         -->
         make (eP7 val=&1.val + 1);
         make (P6 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P6. Adding token to P7 and replacing tokens in B and C.|);
         remove &1;
         remove &2;
         make (B);
@@ -133,6 +143,7 @@ module rules() {
         -->
         make (eP10 val=&1.val + 1);
         make (P9 val=&2.val - 1);
+        make (STATEMENT msg=|Taking token from P9. Adding token to P10 and replacing token in C.|);
         remove &1;
         remove &2;
         make (C);

@@ -38,4 +38,6 @@ module decl() {
     type eP10 = element(val:integer);
 
     type CLOCK = element();
+
+    type STATEMENT = element(msg:symbol);
 }
