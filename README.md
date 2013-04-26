@@ -11,7 +11,7 @@ To compile the program, simply run `make`.
 ### Running the program
 To run the project, enter `./project` after compiling. The output for the project is stored in the file `output.txt`.
 
-The program reads from the `input.txt` file.
+The program reads from the `input.txt` file. Replace this file with one containing the data you wish to test.
 
 ### Issues Encountered
 I was able to get the program running fairly well, but I ran into difficulty getting the system to generate its own comments in the output file. I believe this is related to the method I used to simulate the clock cycle. I have left the statements in the `rules.ops` file, though there are no rules that use them as part of any output written to `output.txt`.
